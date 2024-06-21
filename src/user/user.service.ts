@@ -1,8 +1,17 @@
 // src/user/user.service.ts
 import { Injectable } from '@nestjs/common';
 import { UserClass } from '../../dto/user.dto';
-import { doc, setDoc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import { db } from '../firebase.config';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserService {
@@ -39,14 +48,27 @@ export class UserService {
     }
   }
 
-  async createUser(UserClass: UserClass): Promise<UserClass> {
+  async createUser(UserClass: UserClass): Promise<any> {
+    const id = uuidv4();
+    const emailLowercase = UserClass.email.toLowerCase(); // Converte o e-mail para minúsculas
+
+    // Verifica se já existe um usuário com o mesmo e-mail
+    const q = query(
+      collection(db, 'users'),
+      where('email', '==', emailLowercase),
+    );
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      return {"error": "Email utilizado já cadastrado", "statusCode": 400}
+    }
+
     try {
-      const userRef = doc(db, 'users', String(UserClass.id));
+      const userRef = doc(db, 'users', String(id));
       await setDoc(userRef, UserClass);
       return UserClass;
     } catch (e) {
-      console.error('Error adding document: ', e);
-      throw new Error('Error adding document');
+      console.error('Erro ao adicionar documento: ', e);
+      throw new Error('Erro ao adicionar documento');
     }
   }
 }

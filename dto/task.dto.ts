@@ -1,8 +1,9 @@
-import { IsNumber, IsString, IsIn } from 'class-validator';
+import { IsNumber, IsString, IsIn, IsOptional } from 'class-validator';
 
 export class TaskClass {
-  @IsNumber()
-  id: number;
+  @IsOptional()
+  @IsString()
+  createdBy: string;
 
   @IsString()
   title: string;
