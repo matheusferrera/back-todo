@@ -5,6 +5,10 @@ export class TaskClass {
   @IsString()
   createdBy: string;
 
+  @IsOptional()
+  @IsString()
+  id: string;
+
   @IsString()
   title: string;
 

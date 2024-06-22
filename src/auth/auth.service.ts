@@ -1,5 +1,5 @@
 // O servico e responsavel pelo login e validacao dos usuarios
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { UserClass } from '../../dto/user.dto';
@@ -29,6 +29,15 @@ export class AuthService {
   }
 
   async register(userDto: UserClass): Promise<any> {
+    const existingUser = await this.userService.getUserByEmail(userDto.email);
+    if (existingUser) {
+      
+      throw new HttpException(
+        { error: 'Email informado já cadastrado em nossa base de cliente', statusCode: 400 },
+        HttpStatus.BAD_REQUEST,
+      );
+      
+    }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(userDto.password, salt);
     const user = await this.userService.createUser({ ...userDto, password: hashedPassword });

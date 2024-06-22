@@ -13,7 +13,9 @@ export class TaskService {
       const taskSnapshot = await getDocs(q);
       const tasks: TaskClass[] = [];
       taskSnapshot.forEach((doc) => {
-        tasks.push(new TaskClass(doc.data()));
+        const taskData = doc.data();
+        const task = new TaskClass({ ...taskData, id: doc.id });
+        tasks.push(task);
       });
       return tasks;
     } catch (e) {
