@@ -1,18 +1,23 @@
 # TO-DO app
 
 Este é um projeto simples de criação e gerencimaneto de tarefas (to do app).
+<br>
 
 ## Objetvio
 
 O projeto tem como o objetivo mostrar um pouco da minhas stack de programação. Foi feito com nestjs, criando integradamente documentação automatica via nestjs/swagger.
+<br>
 
-## Tecnologia utilizadas
+## Tecnologias utilizadas
 
 **NestJS** - Utilizado para a criaçao da API.<br>
 **NestJS/swagger** - Utilizado para a criação automática do swagger file.<br>
 **Scalar** - Front-end estilizado para a documentação (localhost3001/reference).<br>
 **Firebase** - Banco de dados utilizado.<br>
 **Criptacao** - Algumas bibliotecas para a seguranca como JWT, bcrypt, uuid e outras.<br>
+<br>
+
+## Utilizando o app
 
 ### Instalação
 
